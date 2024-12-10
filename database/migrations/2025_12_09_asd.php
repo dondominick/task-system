@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('dept_name');
+            $table->string('text');
+            $table->date('date');
+            $table->foreignId('sub_id')->references('id')->on('submissions');
+            $table->foreignId('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('comments');
     }
 };

@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Admin;
+use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -32,13 +35,42 @@ class UserFactory extends Factory
         ];
     }
 
+
     /**
      * Indicate that the model's email address should be unverified.
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function createAdmin()
+    {
+        return $this->state(
+            ["status" => "admin"]
+        )->afterCreating(function (User $user) {
+            Admin::factory()->create([
+                "name" => $user->name,
+                "email" => $user->email,
+                "user_id" => $user->id,
+            ]);
+        });
+    }
+    public function createEmployer()
+    {
+        return $this->state(
+            ["status" => "user"]
+        )->afterCreating(function (User $user) {
+
+            Employee::factory()->create([
+                "firstname" => "Patricia Marie",
+                "lastname" => "Cabelin",
+                "email" => $user->email,
+                "user_id" => $user->id,
+                "department_id" => 1
+            ]);
+        });
     }
 }

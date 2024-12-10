@@ -12,12 +12,19 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/app.css'])
 
     @yield('head')
 
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
     <style>
         nav {
             background: rgb(3, 79, 1);
@@ -36,8 +43,7 @@
 
 <body class="font-sans antialiased">
 
-
-    <nav class="z-50 w-full min-h-[80px] bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <nav class="w-full min-h-[80px] bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start rtl:justify-end">
@@ -61,7 +67,10 @@
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
                         <div class="flex gap-5 items-center justify-center text-white">
-                            <p class="text-xl">Admin</p>
+                            <p class="text-lg">
+                                {{ auth()->user()->name }}
+
+                            </p>
 
                             <button type="button"
                                 class="flex text-sm text-white bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
@@ -76,10 +85,10 @@
                             id="dropdown-user">
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm text-white" role="none">
-                                    Neil Sims
+                                    {{ auth()->user()->name }}
                                 </p>
                                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                    neil.sims@flowbite.com
+                                    {{ auth()->user()->email }}
                                 </p>
                             </div>
                             <ul class="py-1" role="none">
@@ -116,10 +125,10 @@
         </div>
     </nav>
 
-    <div class="flex bg-gray-200">
+    <div class="flex w-full min-h-screen top-[80px] bg-gray-200">
 
         <aside id="basis-1/5"
-            class="z-40 w-64 h-screen transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+            class="z-10 w-64 h-screen transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
             aria-label="Sidebar">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800 bg-gradient-green py-5">
                 <ul class="space-y-2 font-medium">
@@ -146,8 +155,6 @@
                                     d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
                             </svg>
                             <span class="flex-1 ms-3 whitespace-nowrap">Tasks</span>
-                            <span
-                                class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
                         </a>
                     </li>
                     <li>
@@ -162,7 +169,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin-request') }}"
+                        <a href="{{ route('admin-users') }}"
                             class="flex items-center p-2 text-white rounded-lg  hover:bg-green-700">
                             <svg class="w-5 h-5 text-white transition duration-75 " aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -222,7 +229,36 @@
         {{-- END OF CODE --}}
 
         <!-- Page Content -->
-        <main class="basis-4/5 bg-gray-200">
+
+        <main class="basis-4/5 bg-gray-200 max-h-screen h-100 overflow-y-scroll p-4 pb-[150px]">
+
+            @if (session('login'))
+                <div id="toast-success"
+                    class="flex items-center fixed bottom-0 end-0 m-5 w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+                    role="alert">
+                    <div
+                        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                        </svg>
+                        <span class="sr-only">Check icon</span>
+                    </div>
+                    <div class="ms-3 text-sm font-normal">{{ session('login') }}</div>
+                    <button type="button"
+                        class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                        data-dismiss-target="#toast-success" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+            @endif
+
             @yield('content')
         </main>
 

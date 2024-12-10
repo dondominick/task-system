@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->text('title');
-            $table->text('body');
+            $table->text('notif_title');
+            $table->text('notif_summary');
+            $table->text('notif_body');
+            $table->string('to_whom')->nullable();
             $table->timestamps();
         });
     }

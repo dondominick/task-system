@@ -9,9 +9,9 @@ class LeaveRequest extends Model
 {
     protected $fillable = [
         'user_id',
-        'title',
+        'leave_title',
         'start_date',
         'end_date',
-        'description'
+        'leave_text'
     ];
 }

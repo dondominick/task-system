@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
     <div class="p-4 border-b-2 border-black">
-        <h1 class="font-bold text-4xl">Text Overview</h1>
+        <h1 class="font-bold text-4xl">Task Overview</h1>
     </div>
 
     <div class="p-4">
@@ -21,7 +21,7 @@
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="max-w-[50px] px-2 py-3">
                             Task No.
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -29,7 +29,6 @@
                         </th>
 
                         <th scope="col" class="px-6 py-3">
-                            Feedback
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Status
@@ -40,95 +39,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr
-                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple MacBook Pro 17"
-                        </th>
-                        <td class="px-6 py-4">
-                            Silver
-                        </td>
-                        <td class="px-6 py-4">
-                            Laptop
-                        </td>
-                        <td class="px-6 py-4">
-                            $2999
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
-                    <tr
-                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Microsoft Surface Pro
-                        </th>
-                        <td class="px-6 py-4">
-                            White
-                        </td>
-                        <td class="px-6 py-4">
-                            Laptop PC
-                        </td>
-                        <td class="px-6 py-4">
-                            $1999
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
-                    <tr
-                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Magic Mouse 2
-                        </th>
-                        <td class="px-6 py-4">
-                            Black
-                        </td>
-                        <td class="px-6 py-4">
-                            Accessories
-                        </td>
-                        <td class="px-6 py-4">
-                            $99
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
-                    <tr
-                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Google Pixel Phone
-                        </th>
-                        <td class="px-6 py-4">
-                            Gray
-                        </td>
-                        <td class="px-6 py-4">
-                            Phone
-                        </td>
-                        <td class="px-6 py-4">
-                            $799
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple Watch 5
-                        </th>
-                        <td class="px-6 py-4">
-                            Red
-                        </td>
-                        <td class="px-6 py-4">
-                            Wearables
-                        </td>
-                        <td class="px-6 py-4">
-                            $999
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
+                    @foreach ($tasks as $task)
+                        <tr
+                            class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                            <th scope="row"
+                                class="px-2 text-center py-4 max-w-[50px] font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $task->id }}
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ $task->task_name }}
+                            </td>
+                            <td class="px-4 py-4 capitalize">
+                                {{ $task->start_date }} - {{ $task->end_date }}
+                            </td>
+                            <td class="px-6 py-4 capitalize">
+                                {{ $task->status }}
+
+                            </td>
+                            <td class="px-6 py-4">
+                                <button type="button"
+                                    onclick="window.location.href = '{{ route('task-details', $task->id) }}'"
+                                    class="bg-green-700 px-4 rounded-lg p-2 font-medium text-white hover:bg-blue-500 transition-all  ">View</button>
+
+                            </td>
+                        </tr>
+                    @endforeach
+
                 </tbody>
             </table>
         </div>

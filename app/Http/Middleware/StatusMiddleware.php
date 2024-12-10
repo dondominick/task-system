@@ -18,8 +18,9 @@ class StatusMiddleware
 
         // Check if user is an admin or not
         if (session('admin')) {
-            dd('user is an admin');
+            return $next($request);
         }
-        return $next($request);
+
+        return back()->with(['admin' => "You are not an admin"]);
     }
 }

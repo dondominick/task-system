@@ -1,47 +1,30 @@
 @extends('layouts.app')
 @section('content')
-    <div class=" m-5 py-2 font-extrabold">
-        <h1 class="text-5xl">Leave Request</h1>
+    <div class="m-3 border-b-2 border-green-300">
+        <h1 class="text-3xl font-bold">
+            Leave Requests
+        </h1>
     </div>
 
 
-
     <div class="mx-auto p-3">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mx-auto">
-            <thead class="text-xl text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Date Filed </th>
-                    <th scope="col" class="px-6 py-3">
-                        Date Ended </th>
-                    <th scope="col" class="px-6 py-3">
-                        Reason </th>
-                    <th scope="col" class="px-6 py-3">
-                        Status
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @isset($request)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple MacBook Pro 17"
-                        </th>
-                        <td class="px-6 py-4">
-                            Silver
-                        </td>
-                        <td class="px-6 py-4">
-                            Laptop
-                        </td>
-                        <td class="px-6 py-4">
-                            $2999
-                        </td>
-                    </tr>
-                @endisset
 
+        @foreach ($request as $request)
+            <div class="my-2 bg-white p-2 rounded-lg">
+                <span class="font-bold text-2xl">Title: {{ $request->leave_title }}</span><br>
+                <span class="font-bold text-2xl">Status: {{ $request->leave_status }}</span> <br>
+                <span class="font-bold text-2xl">Start Date: {{ $request->start_date }}</span> <br>
+                <span class="font-bold text-2xl">End Date: {{ $request->end_date }}</span><br>
+                <span class="text-lg font-bold">Date Requested: {{ $request->created_at }} </span><br>
 
-            </tbody>
-        </table>
+                <span class="text-lg font-bold">Reason for Leave Request:</span><br>
+                <p class="px-2 py-1 text-justify">
+                    {{ $request->leave_text }}
+                </p>
+
+            </div>
+        @endforeach
+
         @empty($request)
             <p class="text-gray-500 text-2xl w-full text-center my-6">
                 You haven't made a request yet

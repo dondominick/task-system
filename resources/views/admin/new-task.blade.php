@@ -6,10 +6,22 @@
 
         </h1>
     </div>
+    @if ($errors->any())
+        <ul class="my-3">
+            @foreach ($errors->all() as $messages)
+                <li class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <span class="font-medium">Danger alert!</span> {{ $messages }}
 
 
-    <form class="shadow-md shadow-green-400 p-2 m-4">
+                </li>
+            @endforeach
+        </ul>
+    @endif
+    <form class="shadow-md shadow-green-400 p-2 m-4" action="{{ route('create-task') }}" method="POST"
+        enctype="multipart/form-data">
         {{-- Task Name --}}
+        @csrf
         <div class="mb-3">
             <label for="first_name" class="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
                 Task Name
@@ -24,6 +36,21 @@
             <input name="task_file"
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 id="file_input" type="file">
+        </div>
+        {{-- REQUIRE FILE SUBMISSION --}}
+        <div class="mb-3">
+            <label class="block text-xl font-medium text-gray-900 dark:text-white" for="file_input">Require File
+                Submission</label>
+            <div class="flex items-center">
+                <input id="link-checkbox" type="radio" value="0" name="require_submission"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+            </div>
+            <div class="flex items-center">
+                <input id="link-checkbox" type="radio" value="1" name="require_submission"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+            </div>
         </div>
         {{-- Date Range --}}
         <div id="date-range-picker" date-rangepicker class="flex items-center my-5">
@@ -60,24 +87,25 @@
             <label for="countries" class="block text-lg font-medium text-gray-900 dark:text-white">
                 Assigned Task To
             </label>
-            <select id="users"
+            <select id="users" name="user"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected='everyone'>Everyone</option>
-
-                <option value=""></option>
+                <option selected='everyone' value="everyone">Everyone</option>
+                @foreach ($employees as $employee)
+                    <option value="{{ $employee->id }}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
+                @endforeach
 
             </select>
         </div>
         {{-- Optional --}}
         <div class="my-4">
             <label for="message" class="block text-xl font-medium text-gray-900 dark:text-white">Task Description</label>
-            <textarea id="message" rows="4"
+            <textarea id="message" rows="4" name="message"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Write your thoughts here..."></textarea>
 
         </div>
 
-        <button type="button"
+        <button type="submit"
             class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
             Submit </button>
 

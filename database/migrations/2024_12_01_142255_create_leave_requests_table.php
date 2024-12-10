@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('leave_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('title');
+            $table->string('leave_title');
             $table->date('start_date');
             $table->date('end_date');
-            $table->longText('description');
+            $table->longText('leave_text');
+            $table->enum('leave_status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

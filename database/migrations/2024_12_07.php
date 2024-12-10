@@ -16,7 +16,11 @@ return new class extends Migration
             $table->string('task_name');
             $table->longText('description');
             $table->string('status')->default('ongoing');
-            $table->json('file')->nullable();
+            $table->text('file')->nullable();
+            $table->boolean('require_submission')->default(false);
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->text('employee_assigned')->default('everyone');
             $table->timestamps();
         });
     }

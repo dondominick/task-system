@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('submissions', function (Blueprint $table) {
             $table->id();
-            $table->string('dept_name');
+            $table->string('status')->default('submitted');
+            $table->foreignId('task_id')->references('id')->on('tasks');
+            $table->foreignId('employee_id')->references('id')->on('employees');
+            $table->date('sub_date');
+            $table->string('file')->nullable();
+
             $table->timestamps();
         });
     }
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('submissions');
     }
 };

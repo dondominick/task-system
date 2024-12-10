@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Employee;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,8 +29,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $employee = Employee::where('user_id', Auth::id())->get()->first();
+        session(["employee" => $employee]);
         if (Auth::user()->status == "admin") {
             session(['admin' => true]);
+            return redirect()->route('admin')->with(['login' => "Login Successful"]);
         }
 
         return redirect()->intended(route('dashboard', absolute: false));
