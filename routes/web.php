@@ -80,6 +80,8 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/admin/department', [DepartmentController::class, 'update']);
         Route::patch('/admin/users', [EmployeeController::class, 'update']);
         Route::patch('/admin/leave-requests', [LeaveRequestController::class, 'updateRequest']);
+        Route::patch('/admin/tasks/{id}', [SubmissionController::class, 'update']);
+
         // Admin Delete Routes
         Route::delete('/admin/department', [DepartmentController::class, 'delete']);
         Route::delete('/admin/users', [EmployeeController::class, 'delete']);

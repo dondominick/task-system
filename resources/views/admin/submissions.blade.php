@@ -106,7 +106,7 @@
     <form action="" method="post" hidden id="updateForm">
         @csrf
         @method('patch')
-        <input type="text" hidden name="id" id="submission_id">
+        <input type="text" hidden name="id" id="sub_id">
         <input type="text" hidden name="status" id="submission_status">
     </form>
 
@@ -161,6 +161,12 @@
         function commentModal(id) {
             document.getElementById('submission_id').value = id;
 
+        }
+
+        function updateSubmission(status, id) {
+            document.getElementById('sub_id').value = id;
+            document.getElementById('submission_status').value = status;
+            document.getElementById('updateForm').submit();
         }
     </script>
 @endsection

@@ -69,6 +69,10 @@ class SubmissionController extends Controller
         return redirect()->route('tasks')->with(['tasks' => "Task submitted successfully"]);
     }
 
+    public function update(Request $request)
+    {
+        dd('working');
+    }
 
     public function downloadFile($name)
     {
